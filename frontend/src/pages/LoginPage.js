@@ -16,8 +16,12 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/invoices');
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+    else
+    {
+      navigate('/invoices')
     }
   }, [isAuthenticated, navigate]);
 
