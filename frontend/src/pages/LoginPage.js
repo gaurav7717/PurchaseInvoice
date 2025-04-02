@@ -8,7 +8,9 @@ const Login = () => {
   const [password, setPassword] = React.useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { loading, error } = useAppSelector((state) => state.auth);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,12 +18,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/');
-    }
-    else
-    {
-      navigate('/invoices')
+    if (isAuthenticated) {
+      navigate('/invoices');
     }
   }, [isAuthenticated, navigate]);
 

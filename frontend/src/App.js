@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkAuthStatus } from './slicers/authSlice';
+import PrivateRoute from '../src/component/PrivateRoute'; // Ensure this is the correct path
+
 import LoginPage from './pages/LoginPage';
 import InvoiceList from './pages/InvoiceList';
 import CreateInvoice from './pages/CreateInvoice';
-import Vendors from './pages/Vendors';
-import { useDispatch, useSelector } from 'react-redux';
-import { checkAuthStatus } from './slicers/authSlice';
-import PrivateRoute from '../src/component/PrivateRoute'; // Assuming you created the PrivateRoute component
+import { VendorList } from './pages/VendorList';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function App() {
         <Route
           path="/invoices"
           element={
-            <PrivateRoute>
+            <PrivateRoute isAuthenticated={isAuthenticated}>
               <InvoiceList />
             </PrivateRoute>
           }
@@ -31,7 +32,7 @@ function App() {
         <Route
           path="/create"
           element={
-            <PrivateRoute>
+            <PrivateRoute isAuthenticated={isAuthenticated}>
               <CreateInvoice />
             </PrivateRoute>
           }
@@ -39,12 +40,11 @@ function App() {
         <Route
           path="/vendors"
           element={
-            <PrivateRoute>
-              <Vendors />
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+             <VendorList/>
             </PrivateRoute>
           }
         />
-        {/* You can add more public routes here */}
       </Routes>
     </div>
   );

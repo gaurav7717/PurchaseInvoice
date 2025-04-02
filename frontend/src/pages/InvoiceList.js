@@ -26,27 +26,26 @@ function InvoiceList() {
   const [clientSideReady, setClientSideReady] = useState(false);
 
   useEffect(() => {
-    // Set clientSideReady to true after initial render
     setClientSideReady(true);
-    
-    // Only redirect if auth has finished loading and user is not authenticated
-    if (!authLoading && !isAuthenticated) {
-      navigate('/');
-    } else if (isAuthenticated) {
-      dispatch(fetchInvoices());
+  }, []);
+
+  useEffect(() => {
+    if (!authLoading) {
+      if (!isAuthenticated) {
+        navigate('/');
+      } else {
+        dispatch(fetchInvoices());
+      }
     }
   }, [dispatch, isAuthenticated, authLoading, navigate]);
 
-  // Separate useEffect for logging to avoid unnecessary renders
-  useEffect(() => {
-    if (clientSideReady) {
-      console.table(invoices);
-    }
-  }, [invoices, clientSideReady]);
+  if (!clientSideReady || authLoading) {
+    return <div className="p-4 text-center">Checking authentication...</div>;
+  }
 
-  // Early return during server rendering or before client hydration is complete
-  if (!clientSideReady) {
-    return <div className="p-4 text-center">Loading...</div>;
+
+  if (!clientSideReady || authLoading) {
+    return <div className="p-4 text-center">Checking authentication...</div>;
   }
 
   if (!isAuthenticated) {
@@ -54,7 +53,6 @@ function InvoiceList() {
   }
 
   if (loading) return <div className="p-4 text-center">Loading invoices...</div>;
-
   if (error) return <div className="p-4 text-center text-red-600">Error: {error}</div>;
 
   const handleEditClick = (invoice) => {
@@ -145,7 +143,7 @@ function InvoiceList() {
   return (
     <div className="max-w-full mx-auto mt-0">
       <Navbar />
-      <div className='max-w-7xl mx-auto mt-6'>
+      <div className='max-w-7xl mx-auto mt-6 md:w-11/12'>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Invoice List</h1>
           <button
@@ -238,26 +236,27 @@ function InvoiceList() {
                       <div className="col-span-1 text-right">₹{invoice.sub_total || '0'}</div>
                       <div className="col-span-2 text-right">₹{invoice.grand_total || '0'}</div>
                       <div className="col-span-2 flex justify-around space-x-0">
-                        <Button
-                          size="small"
+                        <button
+                          
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEditClick(invoice);
                           }}
-                          className="text-blue-600"
+                          className="text-blue-500"
                         >
                          <ModeEditOutlineOutlinedIcon/>
-                        </Button>
-                        <Button
-                          size="small"
-                          color="error"
+                        </button>        
+                        
+                        <button
+                         
                           onClick={(e) => {
                             e.stopPropagation();
                             handleDeleteClick(invoice.id);
                           }}
+                          className='text-red-500'
                         >
                           <DeleteIcon/>
-                        </Button>
+                        </button>
                       </div>
                     </div>
                   </div>

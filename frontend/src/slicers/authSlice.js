@@ -50,11 +50,12 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: localStorage.getItem('access_token'), // Keep token in state for potential use
-    isAuthenticated: false, // Initialize to false
-    loading: true, // Start with loading true
+    token: localStorage.getItem('access_token') || null, // Uncommented and corrected
+    isAuthenticated: false,
+    loading: true,
     error: null
   },
+
   reducers: {
     logout: (state) => {
       localStorage.removeItem('access_token');
