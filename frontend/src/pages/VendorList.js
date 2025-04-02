@@ -88,9 +88,9 @@ export const VendorList = () => {
         {vendors.length === 0 ? (
           <p>No vendors available</p>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} className="mt-4">
             {vendors.map(vendor => (
-              <Grid item xs={12} sm={6} md={4} key={vendor.id}>
+              <Grid item xs={12} sm={6} md={4} key={vendor.id} className="max-w-3/12">
                 <Card sx={{ minWidth: 275, cursor: 'pointer' }}>
                   <CardContent onClick={() => handleViewVendor(vendor)}>
                     <Typography variant="h6" component="div">

@@ -4,6 +4,7 @@ import { uploadInvoice, createInvoice } from "../slicers/invoiceSlice";
 import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { selectVendors } from "../slicers/vendorSlice";
 
 const CreateInvoice = ({
   open,
@@ -14,7 +15,8 @@ const CreateInvoice = ({
 }) => {
   const dispatch = useDispatch();
   const { uploadStatus, saveStatus, error } = useSelector((state) => state.invoices);
-
+  const vendors = useSelector(selectVendors);
+  console.table(vendors);
   // Default empty form state
   const emptyFormState = {
     vendor_name: "",
@@ -74,11 +76,7 @@ const CreateInvoice = ({
     }
   }, [initialValues, open]);
 
-  const vendors = [
-    { id: 1, name: "ABC Enterprises GreenLeaf Organics Pvt. Ltd." },
-    { id: 2, name: "Vendor B" },
-    { id: 3, name: "Vendor C" },
-  ];
+
 
   const itemFields = [
     { name: "hsn_sac", label: "HSN/SAC", type: "text" },
@@ -294,8 +292,8 @@ const CreateInvoice = ({
               >
                 <option value="">Select a vendor</option>
                 {vendors.map((vendor) => (
-                  <option key={vendor.id} value={vendor.name}>
-                    {vendor.name}
+                  <option key={vendor.id} value={vendor.vendor_name}>
+                    {vendor.vendor_name}
                   </option>
                 ))}
               </select>

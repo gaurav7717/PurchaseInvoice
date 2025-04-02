@@ -28,6 +28,10 @@ const demoVendors = [
     zipcode: '10001',
     license_number: 'LIC002',
     associated_brands: ['BrandC']
+  },
+  {
+    id :3,
+    vendor_name: "ABC Enterprises GreenLeaf Organics Pvt. Ltd."
   }
 ];
 
